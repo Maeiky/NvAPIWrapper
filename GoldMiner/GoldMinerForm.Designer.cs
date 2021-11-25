@@ -26,14 +26,22 @@ namespace GoldMiner {
         private void InitializeComponent() {
             this.lsbGPU = new System.Windows.Forms.ListBox();
             this.lbDriver = new System.Windows.Forms.Label();
+            this.tbOverclock_Core = new System.Windows.Forms.TextBox();
+            this.tbOverclock_Mem = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnSelected = new System.Windows.Forms.Button();
+            this.btnAll = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lsbGPU
             // 
             this.lsbGPU.FormattingEnabled = true;
-            this.lsbGPU.Location = new System.Drawing.Point(118, 79);
+            this.lsbGPU.Location = new System.Drawing.Point(12, 78);
             this.lsbGPU.Name = "lsbGPU";
-            this.lsbGPU.Size = new System.Drawing.Size(531, 147);
+            this.lsbGPU.Size = new System.Drawing.Size(577, 147);
             this.lsbGPU.TabIndex = 0;
             this.lsbGPU.SelectedIndexChanged += new System.EventHandler(this.lsbGPU_SelectedIndexChanged);
             // 
@@ -47,11 +55,88 @@ namespace GoldMiner {
             this.lbDriver.TabIndex = 1;
             this.lbDriver.Text = "label1";
             // 
+            // tbOverclock_Core
+            // 
+            this.tbOverclock_Core.Location = new System.Drawing.Point(689, 99);
+            this.tbOverclock_Core.Name = "tbOverclock_Core";
+            this.tbOverclock_Core.Size = new System.Drawing.Size(100, 20);
+            this.tbOverclock_Core.TabIndex = 2;
+            // 
+            // tbOverclock_Mem
+            // 
+            this.tbOverclock_Mem.Location = new System.Drawing.Point(689, 120);
+            this.tbOverclock_Mem.Name = "tbOverclock_Mem";
+            this.tbOverclock_Mem.Size = new System.Drawing.Size(100, 20);
+            this.tbOverclock_Mem.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(645, 100);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Core:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(704, 78);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Overclock:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(645, 122);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Mem:";
+            // 
+            // btnSelected
+            // 
+            this.btnSelected.Location = new System.Drawing.Point(795, 100);
+            this.btnSelected.Name = "btnSelected";
+            this.btnSelected.Size = new System.Drawing.Size(58, 35);
+            this.btnSelected.TabIndex = 7;
+            this.btnSelected.Text = "Selected";
+            this.btnSelected.UseVisualStyleBackColor = true;
+            this.btnSelected.Click += new System.EventHandler(this.btnSelected_Click);
+            // 
+            // btnAll
+            // 
+            this.btnAll.Location = new System.Drawing.Point(859, 100);
+            this.btnAll.Name = "btnAll";
+            this.btnAll.Size = new System.Drawing.Size(58, 35);
+            this.btnAll.TabIndex = 8;
+            this.btnAll.Text = "All";
+            this.btnAll.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(821, 78);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Apply to:";
+            // 
             // GoldMinerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(946, 450);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.btnAll);
+            this.Controls.Add(this.btnSelected);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tbOverclock_Mem);
+            this.Controls.Add(this.tbOverclock_Core);
             this.Controls.Add(this.lbDriver);
             this.Controls.Add(this.lsbGPU);
             this.Name = "GoldMinerForm";
@@ -66,6 +151,14 @@ namespace GoldMiner {
 
         private System.Windows.Forms.ListBox lsbGPU;
         private System.Windows.Forms.Label lbDriver;
+        private System.Windows.Forms.TextBox tbOverclock_Core;
+        private System.Windows.Forms.TextBox tbOverclock_Mem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnSelected;
+        private System.Windows.Forms.Button btnAll;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -12,6 +12,7 @@ namespace NvAPIWrapper.Native.Interfaces.GPU
         /// <summary>
         ///     Gets a dictionary for valid power states and their clock frequencies
         /// </summary>
+        //IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; }
         IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; }
 
         /// <summary>

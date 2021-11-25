@@ -101,6 +101,7 @@ namespace NvAPIWrapper.Native.GPU.Structures
         IPerformanceStates20ClockDependentSingleFrequency IPerformanceStates20ClockEntry.SingleFrequency
         {
             get => _ClockDependentInfo._Single;
+            set => _ClockDependentInfo._Single = new PerformanceStates20ClockDependentSingleFrequency(value.FrequencyInkHz);
         }
 
         /// <inheritdoc />

@@ -37,6 +37,6 @@ namespace NvAPIWrapper.Native.Interfaces.GPU
         /// <summary>
         ///     Gets the range of clock frequency and related voltage information if present
         /// </summary>
-        IPerformanceStates20ClockDependentSingleFrequency SingleFrequency { get; }
+        IPerformanceStates20ClockDependentSingleFrequency SingleFrequency { get;set; }
     }
 }
