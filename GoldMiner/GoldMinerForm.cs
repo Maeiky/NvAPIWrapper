@@ -12,6 +12,7 @@ using NvAPIWrapper.Display;
 using NvAPIWrapper.GPU;
 using NvAPIWrapper.Mosaic;
 using NvAPIWrapper.Native;
+using NvAPIWrapper.Native.GPU;
 using NvAPIWrapper.Native.GPU.Structures;
 using NvAPIWrapper.Native.Interfaces.GPU;
 using static NvAPIWrapper.Native.GPU.Structures.PerformanceStates20ClockEntryV1;
@@ -109,14 +110,113 @@ namespace GoldMiner {
           //PerformanceStates20InfoV3 state = new  PerformanceStates20InfoV3();
           
 
-          //    int freq = 
-    
-           IPerformanceStates20ClockEntry[] entry = state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced];
-            
 
-           IPerformanceStates20ClockDependentSingleFrequency singfreq = entry[1].SingleFrequency;
+        state.Clocks[PerformanceStateId.P2_Balanced][1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+
+
+             PrivatePCIeInfoV2 pcieInformation = GPUApi.GetPCIEInfo(gpu.Handle);
+
+
+            var clocks = state.Clocks;
+            var baseVoltages = state.Voltages;
+
+             GPUPerformanceState[]  PerformanceStates = state.PerformanceStates.Select((state20, i) =>
+            {
+                PCIeInformation statePCIeInfo = null;
+
+                if ( pcieInformation.PCIePerformanceStateInfos.Length > i)
+                {
+                    statePCIeInfo = new PCIeInformation(pcieInformation.PCIePerformanceStateInfos[i]);
+                }
+
+                return new GPUPerformanceState(
+                    i,
+                    state20,
+                    clocks[state20.StateId],
+                    baseVoltages[state20.StateId],
+                    statePCIeInfo
+                );
+            }).ToArray();
+
+
+        /*
+        GPUPerformanceState test =  new GPUPerformanceState(
+                    i,
+                    state20,
+                    clocks[state20.StateId],
+                    baseVoltages[state20.StateId],
+                    statePCIeInfo
+                );
+
+        */
+           state.Clocks.Clear(); 
+        /*
+        Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> _clk =  state.GetClockV1();
+
+         IPerformanceStates20ClockDependentSingleFrequency singfreq = _clk[PerformanceStateId.P2_Balanced][1].SingleFrequency;
            uint freq =  singfreq.FrequencyInkHz;
 
+
+        _clk[PerformanceStateId.P2_Balanced][1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+     //  singfreq =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+        
+        state.GetClockV1()[PerformanceStateId.P2_Balanced][1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+
+         state.SetClockV1(_clk);
+        */
+
+
+        
+           GPUPerformanceStateVoltage[] GlobalVoltages = state.GeneralVoltages
+                .Select(entry => new GPUPerformanceStateVoltage(entry))
+                .ToArray();
+
+            var clocks = state.Clocks;
+            var baseVoltages = state.Voltages;
+
+          GPUPerformanceState[]  PerformanceStates = state.PerformanceStates.Select((state20, i) =>
+            {
+                PCIeInformation statePCIeInfo = null;
+
+                if (pciInformation != null && pciInformation.Value.PCIePerformanceStateInfos.Length > i)
+                {
+                    statePCIeInfo = new PCIeInformation(pciInformation.Value.PCIePerformanceStateInfos[i]);
+                }
+
+                return new GPUPerformanceState(
+                    i,
+                    state20,
+                    clocks[state20.StateId],
+                    baseVoltages[state20.StateId],
+                    statePCIeInfo
+                );
+            }).ToArray();
+
+            CurrentPerformanceState =
+                PerformanceStates.FirstOrDefault(performanceState =>
+                    performanceState.StateId == currentPerformanceStateId);
+
+
+
+
+          break;
+
+
+          //    int freq = 
+    
+        /*
+          // IPerformanceStates20ClockEntry[] entry = state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced];
+           IPerformanceStates20ClockEntry[] entry = _clk[PerformanceStateId.P2_Balanced];
+           IPerformanceStates20ClockDependentSingleFrequency singfreq = entry[1].SingleFrequency;
+        */
+
+         //  uint freq =  singfreq.FrequencyInkHz;
+
+        /*
 
           entry[1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
 
@@ -125,17 +225,17 @@ namespace GoldMiner {
            state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced].Clone();
         state.Clocks.Clear();
 
-
+   
           state.Clocks = new Dictionary<NvAPIWrapper.Native.GPU.PerformanceStateId, IPerformanceStates20ClockEntry[]>();
         //8052525
         //8100000
 
-        state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = null;
+        state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = null;     */
         //  GPUApi.SetPerformanceStates20(gpu.Handle, state);
 
       //  state.Clocks.Clear();
 
-        state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = entry;
+        //state.Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = entry;
         
 
 

@@ -349,6 +349,36 @@ namespace NvAPIWrapper.Native
             throw new NVIDIANotSupportedException("This operation is not supported.");
         }
 
+
+        public static PerformanceStates20InfoV1 GetPerformanceStates20V1(PhysicalGPUHandle physicalGPUHandle)
+        {
+            var getPerformanceStates20 = DelegateFactory.GetDelegate<Delegates.GPU.NvAPI_GPU_GetPStates20>();
+
+            foreach (var acceptType in getPerformanceStates20.Accepts())
+            {
+                var instance = acceptType.Instantiate<IPerformanceStates20Info>();
+
+                using (var performanceStateInfo = ValueTypeReference.FromValueType(instance, acceptType))
+                {
+                    var status = getPerformanceStates20(physicalGPUHandle, performanceStateInfo);
+
+                    if (status == Status.IncompatibleStructureVersion)
+                    {
+                        continue;
+                    }
+
+                    if (status != Status.Ok)
+                    {
+                        throw new NVIDIAApiException(status);
+                    }
+
+                    return performanceStateInfo.ToValueType<PerformanceStates20InfoV1>(acceptType);
+                }
+            }
+
+            throw new NVIDIANotSupportedException("This operation is not supported.");
+        }
+
         /// <summary>
         ///     [PRIVATE] - [Pascal Only]
         ///     Gets the GPU boost frequency curve controls for the passed GPU handle.

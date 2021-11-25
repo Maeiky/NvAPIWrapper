@@ -8,7 +8,7 @@ namespace NvAPIWrapper.GPU
     /// </summary>
     public class PCIeInformation
     {
-        internal PCIeInformation(PrivatePCIeInfoV2.PCIePerformanceStateInfo stateInfo)
+        public PCIeInformation(PrivatePCIeInfoV2.PCIePerformanceStateInfo stateInfo)
         {
             TransferRateInMTps = stateInfo.TransferRateInMTps;
             Generation = stateInfo.Generation;

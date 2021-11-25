@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NvAPIWrapper.Native.GPU;
+using NvAPIWrapper.Native.GPU.Structures;
 using NvAPIWrapper.Native.Interfaces.GPU;
 
 namespace NvAPIWrapper.GPU
@@ -10,10 +11,10 @@ namespace NvAPIWrapper.GPU
     public class GPUPerformanceState
     {
         // ReSharper disable once TooManyDependencies
-        internal GPUPerformanceState(
+        public GPUPerformanceState(
             int index,
             IPerformanceState20 performanceState,
-            IPerformanceStates20ClockEntry[] statesClockEntries,
+            PerformanceStates20ClockEntryV1[] statesClockEntries,
             IPerformanceStates20VoltageEntry[] baseVoltageEntries,
             PCIeInformation pcieInformation)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NvAPIWrapper.Native.GPU;
+using NvAPIWrapper.Native.GPU.Structures;
 
 namespace NvAPIWrapper.Native.Interfaces.GPU
 {
@@ -14,7 +15,12 @@ namespace NvAPIWrapper.Native.Interfaces.GPU
         /// </summary>
         //IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; }
        // Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; set; }
-        Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; set; }
+        Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> Clocks { get; set; }
+
+        Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> GetClockV1();
+       void SetClockV1( Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> _clk);
+
+
         /// <summary>
         ///     Gets the list of general over-volting settings
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using NvAPIWrapper.Native.GPU;
 using NvAPIWrapper.Native.Interfaces.GPU;
 
+
 namespace NvAPIWrapper.GPU
 {
     /// <summary>
@@ -8,7 +9,7 @@ namespace NvAPIWrapper.GPU
     /// </summary>
     public class GPUPerformanceStateVoltage
     {
-        internal GPUPerformanceStateVoltage(IPerformanceStates20VoltageEntry states20BaseVoltageEntry)
+        public GPUPerformanceStateVoltage(IPerformanceStates20VoltageEntry states20BaseVoltageEntry)
         {
             VoltageDomain = states20BaseVoltageEntry.DomainId;
             IsReadOnly = !states20BaseVoltageEntry.IsEditable;

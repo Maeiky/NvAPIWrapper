@@ -7,6 +7,7 @@ using NvAPIWrapper.Native.General.Structures;
 using NvAPIWrapper.Native.Helpers;
 using NvAPIWrapper.Native.Interfaces;
 using NvAPIWrapper.Native.Interfaces.GPU;
+using static NvAPIWrapper.Native.GPU.Structures.PerformanceStates20ClockEntryV1;
 
 namespace NvAPIWrapper.Native.GPU.Structures
 {
@@ -128,7 +129,9 @@ namespace NvAPIWrapper.Native.GPU.Structures
             }
             set { 
               //Clocks=value;
-              Clocks=null;
+                  Clocks[PerformanceStateId.P2_Balanced][1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+           //   Clocks=value;
             }
    
         }
@@ -153,24 +156,37 @@ namespace NvAPIWrapper.Native.GPU.Structures
             }
         }
 
+
+
+       public Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> GetClockV1() {
+         Clocks[PerformanceStateId.P2_Balanced][1].SingleFrequency =  new PerformanceStates20ClockDependentSingleFrequency(8052525);
+
+            return Clocks;
+        }
+        public void  SetClockV1(Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> _clk) {
+            Clocks = _clk;
+        }   
+    
+
+
         /// <inheritdoc />
-       Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> IPerformanceStates20Info.Clocks
+       Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> IPerformanceStates20Info.Clocks
         {
             get
             {
+        //    Clocks = null;
+      //      Clocks.Add(PerformanceStateId.P11,null);
+                return Clocks;
+            /*
                 return Clocks.ToDictionary(
                     pair => pair.Key,
                     pair => pair.Value.Cast<IPerformanceStates20ClockEntry>().ToArray()
-                );
+                );*/
             }
             set { 
-          //this.Clocks = new Dictionary<NvAPIWrapper.Native.GPU.PerformanceStateId, PerformanceStates20ClockEntryV1[]>();
-      //    this.Clocks = null;
-           // Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = null;
+                 Clocks = value;
 
-            // Clocks = null;
-          //  Console.WriteLine("aaass");
-           // Clocks = value;
+               
             }
         }
 
