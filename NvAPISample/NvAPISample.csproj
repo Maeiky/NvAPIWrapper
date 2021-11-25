@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net45</TargetFrameworks>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <StartupObject>NvAPISample.Program</StartupObject>
     <Product>NvAPIWrapper</Product>
     <Authors>Soroush Falahati</Authors>
