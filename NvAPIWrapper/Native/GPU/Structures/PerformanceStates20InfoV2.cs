@@ -117,7 +117,7 @@ namespace NvAPIWrapper.Native.GPU.Structures
         /// <summary>
         ///     Gets a dictionary for valid power states and their clock frequencies
         /// </summary>
-        public IReadOnlyDictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> Clocks
+        public Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> Clocks
         {
             get
             {
@@ -127,6 +127,9 @@ namespace NvAPIWrapper.Native.GPU.Structures
                     state20 => state20.StateId,
                     state20 => state20._Clocks.Take(clocks).ToArray()
                 );
+            }
+              set {
+                Clocks=value;
             }
         }
 
@@ -148,7 +151,7 @@ namespace NvAPIWrapper.Native.GPU.Structures
         }
 
         /// <inheritdoc />
-        IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> IPerformanceStates20Info.Clocks
+        Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> IPerformanceStates20Info.Clocks
         {
             get
             {
@@ -156,6 +159,10 @@ namespace NvAPIWrapper.Native.GPU.Structures
                     pair => pair.Key,
                     pair => pair.Value.Cast<IPerformanceStates20ClockEntry>().ToArray()
                 );
+            }
+
+            set {
+               // Clocks=value;
             }
         }
 

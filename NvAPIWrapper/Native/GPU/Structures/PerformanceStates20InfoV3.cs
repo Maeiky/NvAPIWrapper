@@ -117,18 +117,24 @@ namespace NvAPIWrapper.Native.GPU.Structures
         /// <summary>
         ///     Gets a dictionary for valid power states and their clock frequencies
         /// </summary>
-        public IReadOnlyDictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> Clocks
-        {
-            get
-            {
-                var clocks = (int) _NumberOfClocks;
+        public Dictionary<PerformanceStateId, PerformanceStates20ClockEntryV1[]> Clocks {
+            get {
+            var clocks = (int)_NumberOfClocks;
 
-                return PerformanceStates.ToDictionary(
-                    state20 => state20.StateId,
-                    state20 => state20._Clocks.Take(clocks).ToArray()
-                );
+            return PerformanceStates.ToDictionary(
+                state20 => state20.StateId,
+                state20 => state20._Clocks.Take(clocks).ToArray()
+            );
             }
+            set { 
+              //Clocks=value;
+              Clocks=null;
+            }
+   
         }
+
+
+        //
 
         /// <summary>
         ///     Gets a dictionary for valid power states and their voltage settings
@@ -148,7 +154,7 @@ namespace NvAPIWrapper.Native.GPU.Structures
         }
 
         /// <inheritdoc />
-        IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> IPerformanceStates20Info.Clocks
+       Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> IPerformanceStates20Info.Clocks
         {
             get
             {
@@ -157,7 +163,29 @@ namespace NvAPIWrapper.Native.GPU.Structures
                     pair => pair.Value.Cast<IPerformanceStates20ClockEntry>().ToArray()
                 );
             }
+            set { 
+          //this.Clocks = new Dictionary<NvAPIWrapper.Native.GPU.PerformanceStateId, PerformanceStates20ClockEntryV1[]>();
+      //    this.Clocks = null;
+           // Clocks[NvAPIWrapper.Native.GPU.PerformanceStateId.P2_Balanced] = null;
+
+            // Clocks = null;
+          //  Console.WriteLine("aaass");
+           // Clocks = value;
+            }
         }
+
+        
+ public void MySet(PerformanceStateId key, PerformanceStates20ClockEntryV1[] value)
+{
+    if (Clocks.ContainsKey(key))
+    {
+        Clocks[key] =value;
+    }
+    else
+    {
+        Clocks.Add(key, value);
+    }
+}
 
         /// <inheritdoc />
         IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20VoltageEntry[]> IPerformanceStates20Info.Voltages

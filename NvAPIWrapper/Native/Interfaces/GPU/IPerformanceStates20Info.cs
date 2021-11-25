@@ -13,8 +13,8 @@ namespace NvAPIWrapper.Native.Interfaces.GPU
         ///     Gets a dictionary for valid power states and their clock frequencies
         /// </summary>
         //IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; }
-        IReadOnlyDictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; }
-
+       // Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; set; }
+        Dictionary<PerformanceStateId, IPerformanceStates20ClockEntry[]> Clocks { get; set; }
         /// <summary>
         ///     Gets the list of general over-volting settings
         /// </summary>
