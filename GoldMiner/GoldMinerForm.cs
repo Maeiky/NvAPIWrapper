@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using App;
 using NvAPIWrapper;
 using NvAPIWrapper.Display;
 using NvAPIWrapper.GPU;
@@ -37,8 +38,27 @@ namespace GoldMiner {
 
          // find bits
            
+/*
+ * 
+ for those interested, I found how to manually tweak in the start.bat with
+nvidia-smi -i 0 --lock-gpu-clocks=minimuclock,maxclock
+before the line starting the miner of course.
+Here's my actual settings, I would appreciate if testing people could share theirs so we can help to improve each others:
+#reset all core settings
+nvidia-smi -rgc
+
+  /// nvidia-smi -i 0 -pl 125
+  /// 
 
 
+    nvidia-persistenced --persistence-mode  #first run deamon
+nvidia-smi -pm ENABLED  #2nd enable persistenced mode
+nvidia-smi -pl 130  #limit TDP if u want
+
+        //nvidia-smi -i 0 --lock-gpu-clocks=1140,1140
+ // nvidia-smi -i 0  --lock-memory-clocks=8100,8100 -> nmot work
+-lmc 
+ */
 
 
 
@@ -95,16 +115,70 @@ namespace GoldMiner {
 
         }
 
-        private void btnSelected_Click(object sender,EventArgs e) {
-          int val_core =  0;
-          int val_mem =  0;
-          int.TryParse(  tbOverclock_Mem.Text , out val_core);
-          int.TryParse(  tbOverclock_Mem.Text , out val_mem);
+
+        private bool overclock_gpu(int gpu_id, int val_core) {
+
+             if (val_core < 500 || val_core > 9000) {
+                Log.print("Invalid Core clock");
+                return false;
+            }
+            int core_min = val_core;
+            int core_max = val_core;
+
+            LauchTool smi= new LauchTool();
+            smi.bRunInThread = false;
+            smi.bWaitEndForOutput = true;
+            smi.bReturnBoth = true;
+            smi.bHidden = false;
+
+            string _result = smi.fLauchExe("cmd.exe", "/C nvidia-smi -i " + gpu_id + " --lock-gpu-clocks=" + core_min  + "," + core_max + "");
+            Log.print(_result);
+            //TODO detect failure
+            return true;
+        }
+
+          private bool overclock_mem(int gpu_id, int val_mem) {
+
+             if (val_mem < 500 || val_mem > 9000) {
+                Log.print("Invalid mem clock");
+                return false;
+            }
+
+            LauchTool NVoc= new LauchTool();
+            NVoc.bRunInThread = false;
+            NVoc.bWaitEndForOutput = true;
+            NVoc.bReturnBoth = true;
+            NVoc.bHidden = false;
+
+            string[] _result = NVoc.fLauchExe("NVoc.exe", gpu_id + " 0 "  + val_mem).Split('\n');
+            //string _result = NVoc.fLauchExe("cmd.exe", "/C nvidia-smi -i " + gpu_id + " --lock-gpu-clocks=" + core_min  + "," + core_max + "");
+            foreach (string res in _result) {
+                Log.print(res);
+                if (res.IndexOf("VRAM OC OK") != -1) {
+                    return true;
+                }
+            }
+                   
+            return false;
+        }
+
+
+        private void btnSelected_Click(object sender,EventArgs e) { 
+            int val_core =  0;
+            int val_mem =  0;
+            int.TryParse(  tbOverclock_Core.Text , out val_core);
+            int.TryParse(  tbOverclock_Mem.Text , out val_mem);
+            
+            overclock_gpu(0, val_core);
+            overclock_mem(0, val_mem);
+
+
+        }
+
+        private void btnSelected_Click_ollldd(object sender,EventArgs e) { //Not uded
 
            PhysicalGPU[] aGPU =  PhysicalGPU.GetPhysicalGPUs();
           foreach (PhysicalGPU gpu in aGPU) { 
-                
-               // gpu.
            IPerformanceStates20Info state =  GPUApi.GetPerformanceStates20(gpu.Handle);
 
           //PerformanceStates20InfoV3 state = new  PerformanceStates20InfoV3();
@@ -120,6 +194,7 @@ namespace GoldMiner {
 
             var clocks = state.Clocks;
             var baseVoltages = state.Voltages;
+
 
              GPUPerformanceState[]  PerformanceStates = state.PerformanceStates.Select((state20, i) =>
             {
@@ -168,38 +243,6 @@ namespace GoldMiner {
 
          state.SetClockV1(_clk);
         */
-
-
-        
-           GPUPerformanceStateVoltage[] GlobalVoltages = state.GeneralVoltages
-                .Select(entry => new GPUPerformanceStateVoltage(entry))
-                .ToArray();
-
-            var clocks = state.Clocks;
-            var baseVoltages = state.Voltages;
-
-          GPUPerformanceState[]  PerformanceStates = state.PerformanceStates.Select((state20, i) =>
-            {
-                PCIeInformation statePCIeInfo = null;
-
-                if (pciInformation != null && pciInformation.Value.PCIePerformanceStateInfos.Length > i)
-                {
-                    statePCIeInfo = new PCIeInformation(pciInformation.Value.PCIePerformanceStateInfos[i]);
-                }
-
-                return new GPUPerformanceState(
-                    i,
-                    state20,
-                    clocks[state20.StateId],
-                    baseVoltages[state20.StateId],
-                    statePCIeInfo
-                );
-            }).ToArray();
-
-            CurrentPerformanceState =
-                PerformanceStates.FirstOrDefault(performanceState =>
-                    performanceState.StateId == currentPerformanceStateId);
-
 
 
 

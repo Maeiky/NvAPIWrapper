@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F271366E-F8DA-4404-9457-55076CE6C280}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GoldMiner</RootNamespace>
+    <RootNamespace>App</RootNamespace>
     <AssemblyName>GoldMiner</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -72,6 +72,8 @@
     <Compile Include="GoldMinerForm.Designer.cs">
       <DependentUpon>GoldMinerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LauchTool.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GoldMinerForm.resx">
@@ -85,6 +87,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
