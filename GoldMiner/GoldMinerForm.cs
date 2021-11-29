@@ -154,7 +154,6 @@ nvidia-smi -pl 130  #limit TDP if u want
         }
 
 
-
         private void btReset_Click(object sender,EventArgs e) {
             //-r, --gpu-reset //hard reset on linux?
             //nvidia-smi -rgc //reset all core
