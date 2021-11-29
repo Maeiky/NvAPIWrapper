@@ -140,7 +140,7 @@ namespace GoldMiner {
             // 
             this.gbGPU.Location = new System.Drawing.Point(12, 126);
             this.gbGPU.Name = "gbGPU";
-            this.gbGPU.Size = new System.Drawing.Size(921, 273);
+            this.gbGPU.Size = new System.Drawing.Size(1118, 273);
             this.gbGPU.TabIndex = 11;
             this.gbGPU.TabStop = false;
             this.gbGPU.Text = "gbGPU";
@@ -150,7 +150,7 @@ namespace GoldMiner {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 608);
+            this.ClientSize = new System.Drawing.Size(1177, 608);
             this.Controls.Add(this.gbGPU);
             this.Controls.Add(this.btReset);
             this.Controls.Add(this.label4);
@@ -165,6 +165,8 @@ namespace GoldMiner {
             this.Controls.Add(this.lsbGPU);
             this.Name = "GoldMinerForm";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GoldMinerForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GoldMinerForm_FormClosed);
             this.Load += new System.EventHandler(this.GoldMinerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

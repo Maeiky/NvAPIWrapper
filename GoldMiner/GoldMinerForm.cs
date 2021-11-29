@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using App;
@@ -34,64 +35,7 @@ namespace GoldMiner {
 
 
         
-        public void UpdateGPU(int id) {
-            GPUobj g = aGPU[id];
-            PhysicalGPU gpu = g.gpu;
-          /////GET DATA////
-            ///////////////
-            string tVRAM = "";
-                string tGPU = "";
 
-            ///////// Get Temp / VRAM /////////
-            var maxBit = 0;
-            for (; maxBit < 32; maxBit++){
-                try { GPUApi.QueryThermalSensors(gpu.Handle, 1u << maxBit);}catch{break;}
-            }
-            if (maxBit != 0){
-                var temp = GPUApi.QueryThermalSensors(gpu.Handle, (1u << maxBit) - 1);
-                GPUThermalSensor[] GetThermalSettings = gpu.ThermalInformation.ThermalSensors.ToArray();
-                string[]  QueryThermalSensors = temp.Temperatures.Take(maxBit).Select((t) => t.ToString("F2")).ToArray();
-                tVRAM = QueryThermalSensors[QueryThermalSensors.Length-1];
-                tGPU = QueryThermalSensors[0];
-            }
-            /////////////////////////////////
-            GPUCooler[] aCoolers =  gpu.CoolerInformation.Coolers.ToArray();
-             
-            string fan = "Fan: ";
-            foreach (GPUCooler cooler in aCoolers) {
-                // fan += cooler.CurrentFanSpeedInRPM + "% ";
-                fan += cooler.CurrentLevel + "% ";
-            }
-                
-            //  gpu.BaseClockFrequencies
-            IClockFrequencies base_clk =  gpu.BaseClockFrequencies;
-            IClockFrequencies boost_clk =  gpu.BoostClockFrequencies;
-
-            IClockFrequencies clk =  gpu.CurrentClockFrequencies;
-            ClockDomainInfo core_clk = clk.ProcessorClock;
-            ClockDomainInfo mem_clk = clk.MemoryClock;
-            ClockDomainInfo graph_clk = clk.GraphicsClock;
-            string _core_clk = core_clk.Frequency.ToString();
-
-            double fmem_clk =  Math.Round(mem_clk.Frequency/1000.0);
-            double fgraph_clk=  Math.Round(graph_clk.Frequency/1000.0);
-
-            string _mem_clk = fmem_clk.ToString();
-            string _graph_clk = fgraph_clk.ToString();
-
-        ////////////////////////////////////////////////////////
-        ///
-        //    lsbGPU.Items.Add(  gpu.FullName  + " _core_clk[" + _graph_clk + "]"  + " _mem_clk[" + _mem_clk + "]"  +  " :" + " tGPU:" + tGPU + " tVRAM: " + tVRAM  + " " + gpu.BusInformation  + " : " +  " " + fan +  " " + gpu.ArchitectInformation);
-
-            g.name.Text =  gpu.FullName.Replace("NVIDIA ", "");
-            g.tgpu.Text =    "GPU: " +tGPU;
-            g.tvram.Text =   "VRAM: " +tVRAM;
-            g.fan.Text =   fan;
-            g.core.Text =  "Core: "+ _graph_clk;
-            g.vram.Text =   "Mem: " + _mem_clk;
-        
-             
-        }
 
 
 
@@ -106,9 +50,13 @@ namespace GoldMiner {
             public Label vram;
             public ComboBox miner;
             public ComboBox wallet;
+            public Label crypto;
+            public Label pool_fee;
+            public Label miner_fee;
             
         }
        List<GPUobj> aGPU = new List<GPUobj>();
+        private bool bFinishUpdateAllGPU = true;
 
         public int CreateGPU(int id, int offsetY, PhysicalGPU gpu) {
             GPUobj g = new GPUobj();
@@ -227,7 +175,7 @@ namespace GoldMiner {
             curr_offX += 100;
             //////////
             
-               ///wallet////
+             ///wallet////
             g.miner = new ComboBox (); 
             g.miner.Text = "wallet";
             g.miner.Items.Add("wallet");
@@ -241,7 +189,46 @@ namespace GoldMiner {
 
             curr_offX += 100;
             //////////
+            ///
+
+            ///Crypto ////
+            g.crypto = new Label(); 
+            g.crypto.Text = "Crypto";
+            g.crypto.Location = new Point(curr_offX, posY+5);
+        
+            g.crypto.Font = new Font("Calibri", 10);
+            g.crypto.ForeColor = Color.Black;
+            g.crypto.Padding = new Padding(0);
+            g.crypto.AutoSize= true;
+            gbGPU.Controls.Add( g.crypto);
+            curr_offX += 80;
+            //////////
                 
+            ///Pool fee ////
+            g.pool_fee = new Label(); 
+            g.pool_fee.Text = "Crypto";
+            g.pool_fee.Location = new Point(curr_offX, posY-8);
+        
+            g.pool_fee.Font = new Font("Calibri", 10);
+            g.pool_fee.ForeColor = Color.Black;
+            g.pool_fee.Padding = new Padding(0);
+            g.pool_fee.AutoSize= true;
+            gbGPU.Controls.Add( g.pool_fee);
+            //////////
+            ///
+            ///Miner fee ////
+            g.miner_fee = new Label(); 
+            g.miner_fee.Text = "Crypto";
+            g.miner_fee.Location = new Point(curr_offX, posY+5);
+        
+            g.miner_fee.Font = new Font("Calibri", 10);
+            g.miner_fee.ForeColor = Color.Black;
+            g.miner_fee.Padding = new Padding(0);
+            g.miner_fee.AutoSize= true;
+            gbGPU.Controls.Add( g.miner_fee);
+            curr_offX += 80;
+            //////////
+            
         
         ////////
             return offsetY+30;
@@ -282,7 +269,6 @@ nvidia-smi -pl 130  #limit TDP if u want
             foreach (PhysicalGPU gpu in aGPU) { 
                 
                 offset = CreateGPU(i, offset, gpu);
-                UpdateGPU(i);
                 i++;
 
 
@@ -335,7 +321,100 @@ nvidia-smi -pl 130  #limit TDP if u want
          //   gpu.GPUId
                // lsbGPU.Items.Add(coolers.);
             }
+
+            PoolAllGPU();
+
         }
+
+        private void PoolAllGPU() {
+           Thread winThreadUpdate = new Thread(new ThreadStart(() => {
+                while (true) { 
+                    /////////
+                    ///
+                    UpdateAllGPU();
+
+                     //////
+                    Thread.Sleep(500);
+                }
+            }));
+            winThreadUpdate.Start();
+
+        }
+
+        private void UpdateAllGPU() {
+
+            if (bFinishUpdateAllGPU) { 
+                bFinishUpdateAllGPU=false;
+                PhysicalGPU[] aGPU =  PhysicalGPU.GetPhysicalGPUs();
+                 int i = 0;
+                    foreach (PhysicalGPU gpu in aGPU) {
+                         ///////// Get Temp / VRAM /////////
+                        string tVRAM = "";
+                        string tGPU = "";
+                        var maxBit = 0;
+                        for (; maxBit < 32; maxBit++){
+                            try { GPUApi.QueryThermalSensors(gpu.Handle, 1u << maxBit);}catch{break;}
+                        }
+                        if (maxBit != 0){
+                            var temp = GPUApi.QueryThermalSensors(gpu.Handle, (1u << maxBit) - 1);
+                            GPUThermalSensor[] GetThermalSettings = gpu.ThermalInformation.ThermalSensors.ToArray();
+                            string[]  QueryThermalSensors = temp.Temperatures.Take(maxBit).Select((t) => t.ToString("F2")).ToArray();
+                            tVRAM = QueryThermalSensors[QueryThermalSensors.Length-1];
+                            tGPU = QueryThermalSensors[0];
+                        }
+                        /////////////////////////////////
+                        
+                         GPUCooler[] aCoolers =  gpu.CoolerInformation.Coolers.ToArray();
+             
+                        string fan = "Fan: ";
+                        foreach (GPUCooler cooler in aCoolers) {
+                            // fan += cooler.CurrentFanSpeedInRPM + "% ";
+                            fan += cooler.CurrentLevel + "% ";
+                        }
+                
+                        //  gpu.BaseClockFrequencies
+                        IClockFrequencies base_clk =  gpu.BaseClockFrequencies;
+                        IClockFrequencies boost_clk =  gpu.BoostClockFrequencies;
+
+                        IClockFrequencies clk =  gpu.CurrentClockFrequencies;
+                        ClockDomainInfo core_clk = clk.ProcessorClock;
+                        ClockDomainInfo mem_clk = clk.MemoryClock;
+                        ClockDomainInfo graph_clk = clk.GraphicsClock;
+                        string _core_clk = core_clk.Frequency.ToString();
+
+                        double fmem_clk =  Math.Round(mem_clk.Frequency/1000.0);
+                        double fgraph_clk=  Math.Round(graph_clk.Frequency/1000.0);
+
+                        string _mem_clk = fmem_clk.ToString();
+                        string _graph_clk = fgraph_clk.ToString();
+                        
+                        string name =  gpu.FullName.Replace("NVIDIA ", "");
+                        
+                        UpdateGPU(i, name, tGPU,tVRAM, fan, _graph_clk, _mem_clk );
+
+                        i++;
+                    }
+                    
+                    bFinishUpdateAllGPU =true;
+            }
+        }
+
+        public void UpdateGPU(int id, string name, string tGPU, string tVRAM, string fan, string _graph_clk, string _mem_clk) {
+            this.BeginInvoke((MethodInvoker)delegate {
+                GPUobj g = aGPU[id];
+      
+                g.name.Text = name;
+                g.tgpu.Text =    "GPU: " +tGPU;
+                g.tvram.Text =   "VRAM: " +tVRAM;
+                g.fan.Text =   fan;
+                g.core.Text =  "Core: "+ _graph_clk;
+                g.vram.Text =   "Mem: " + _mem_clk;
+                g.crypto.Text =   "ETH: 0MH" ;
+                g.miner_fee.Text =  "Pool_fee: 0%" ;
+                g.pool_fee.Text =   "Miner_fee: 0%" ;
+            });
+        }
+
 
         private void lsbGPU_SelectedIndexChanged(object sender,EventArgs e) {
 
@@ -547,6 +626,14 @@ nvidia-smi -pl 130  #limit TDP if u want
 
         private void groupBox1_Enter(object sender,EventArgs e) {
 
+        }
+
+        private void GoldMinerForm_FormClosing(object sender,FormClosingEventArgs e) {
+          Hide();
+        }
+
+        private void GoldMinerForm_FormClosed(object sender,FormClosedEventArgs e) {
+          System.Environment.Exit(1);
         }
     }
 }
