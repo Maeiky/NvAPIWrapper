@@ -58,6 +58,7 @@ namespace GoldMiner {
        List<GPUobj> aGPU = new List<GPUobj>();
         private bool bFinishUpdateAllGPU = true;
 
+
         public int CreateGPU(int id, int offsetY, PhysicalGPU gpu) {
             GPUobj g = new GPUobj();
             aGPU.Add(g);
@@ -68,7 +69,6 @@ namespace GoldMiner {
 
              int curr_offX=   posX;
 
-
             ///ID////
             g.id = new Label(); 
             g.id.Text = id.ToString();
@@ -78,7 +78,7 @@ namespace GoldMiner {
             g.id.ForeColor = Color.Green;
             g.id.Padding = new Padding(0);
             g.id.AutoSize= true;
-            gbGPU.Controls.Add(g.id);
+            gbGPUList.Controls.Add(g.id);
             curr_offX += 20;
              //////////
 
@@ -91,7 +91,7 @@ namespace GoldMiner {
             g.name.ForeColor = Color.Black;
             g.name.Padding = new Padding(0);
             g.name.AutoSize= true;
-            gbGPU.Controls.Add(g.name);
+            gbGPUList.Controls.Add(g.name);
             curr_offX += 150;
              //////////
   
@@ -104,7 +104,7 @@ namespace GoldMiner {
             g.tgpu.ForeColor = Color.Black;
             g.tgpu.Padding = new Padding(0);
             g.tgpu.AutoSize= true;
-            gbGPU.Controls.Add( g.tgpu);
+            gbGPUList.Controls.Add( g.tgpu);
              //////////
              
 
@@ -117,7 +117,7 @@ namespace GoldMiner {
             g.tvram.ForeColor = Color.Black;
             g.tvram.Padding = new Padding(0);
             g.tvram.AutoSize= true;
-            gbGPU.Controls.Add( g.tvram);
+            gbGPUList.Controls.Add( g.tvram);
             curr_offX += 100;
             //////////
              
@@ -131,7 +131,7 @@ namespace GoldMiner {
             g.fan.ForeColor = Color.Black;
             g.fan.Padding = new Padding(0);
             g.fan.AutoSize= true;
-            gbGPU.Controls.Add( g.fan);
+            gbGPUList.Controls.Add( g.fan);
             curr_offX += 100;
             //////////
             
@@ -145,7 +145,7 @@ namespace GoldMiner {
             g.core.ForeColor = Color.Black;
             g.core.Padding = new Padding(0);
             g.core.AutoSize= true;
-            gbGPU.Controls.Add( g.core);
+            gbGPUList.Controls.Add( g.core);
              curr_offX += 100;
             //////////
             g.vram = new Label(); 
@@ -156,7 +156,7 @@ namespace GoldMiner {
             g.vram.ForeColor = Color.Black;
             g.vram.Padding = new Padding(0);
             g.vram.AutoSize= true;
-            gbGPU.Controls.Add( g.vram);
+            gbGPUList.Controls.Add( g.vram);
             curr_offX += 100;
 
 
@@ -170,7 +170,7 @@ namespace GoldMiner {
             g.miner.Font = new Font("Calibri", 10);
             g.miner.ForeColor = Color.Black;
             g.miner.Width = 100;
-            gbGPU.Controls.Add( g.miner);
+            gbGPUList.Controls.Add( g.miner);
 
             curr_offX += 100;
             //////////
@@ -185,7 +185,7 @@ namespace GoldMiner {
             g.miner.Font = new Font("Calibri", 10);
             g.miner.ForeColor = Color.Black;
             g.miner.Width = 100;
-            gbGPU.Controls.Add( g.miner);
+            gbGPUList.Controls.Add( g.miner);
 
             curr_offX += 100;
             //////////
@@ -213,7 +213,7 @@ namespace GoldMiner {
             g.pool_fee.ForeColor = Color.Black;
             g.pool_fee.Padding = new Padding(0);
             g.pool_fee.AutoSize= true;
-            gbGPU.Controls.Add( g.pool_fee);
+            gbGPUList.Controls.Add( g.pool_fee);
             //////////
             ///
             ///Miner fee ////
@@ -225,12 +225,10 @@ namespace GoldMiner {
             g.miner_fee.ForeColor = Color.Black;
             g.miner_fee.Padding = new Padding(0);
             g.miner_fee.AutoSize= true;
-            gbGPU.Controls.Add( g.miner_fee);
+            gbGPUList.Controls.Add( g.miner_fee);
             curr_offX += 80;
             //////////
-            
-        
-        ////////
+
             return offsetY+30;
         }
 
@@ -389,7 +387,7 @@ nvidia-smi -pl 130  #limit TDP if u want
                         string _graph_clk = fgraph_clk.ToString();
                         
                         string name =  gpu.FullName.Replace("NVIDIA ", "");
-                        
+
                         UpdateGPU(i, name, tGPU,tVRAM, fan, _graph_clk, _mem_clk );
 
                         i++;
@@ -399,10 +397,14 @@ nvidia-smi -pl 130  #limit TDP if u want
             }
         }
 
+
+
         public void UpdateGPU(int id, string name, string tGPU, string tVRAM, string fan, string _graph_clk, string _mem_clk) {
             this.BeginInvoke((MethodInvoker)delegate {
                 GPUobj g = aGPU[id];
-      
+ 
+            //   gbGPUList.Location = new Point(  gbGPUList.Location.X,   gbGPUList.Location.Y - 1);  
+        
                 g.name.Text = name;
                 g.tgpu.Text =    "GPU: " +tGPU;
                 g.tvram.Text =   "VRAM: " +tVRAM;
