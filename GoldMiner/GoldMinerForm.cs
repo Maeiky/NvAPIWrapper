@@ -93,6 +93,12 @@ nvidia-smi -pl 130  #limit TDP if u want
                 }
                 
               //  gpu.BaseClockFrequencies
+               IClockFrequencies base_clk =  gpu.BaseClockFrequencies;
+               IClockFrequencies boost_clk =  gpu.BoostClockFrequencies;
+
+
+            //   IPerformanceStates20Info state =  GPUApi.GetPerformanceStates20(gpu.Handle);
+
                IClockFrequencies clk =  gpu.CurrentClockFrequencies;
                ClockDomainInfo core_clk = clk.ProcessorClock;
                ClockDomainInfo mem_clk = clk.MemoryClock;
@@ -102,7 +108,8 @@ nvidia-smi -pl 130  #limit TDP if u want
                string _graph_clk = graph_clk.Frequency.ToString();
 
               // string _core_clk =  gpu.clock;
-                
+           
+        
 
                lsbGPU.Items.Add(  gpu.FullName  + " _core_clk[" + _graph_clk + "]"  + " _mem_clk[" + _mem_clk + "]"  +  " :" + " tGPU:" + tGPU + " tVRAM: " + tVRAM  + " " + gpu.BusInformation  + " : " +  " " + fan +  " " + gpu.ArchitectInformation);
 
@@ -115,7 +122,45 @@ nvidia-smi -pl 130  #limit TDP if u want
 
         }
 
+        private string[] LaunchSmi(string arg) {
+            LauchTool smi= new LauchTool();
+            smi.bRunInThread = false;
+            smi.bWaitEndForOutput = true;
+            smi.bReturnBoth = true;
+            smi.bHidden = true;
 
+            string[] _result =  smi.fLauchExe("cmd.exe", "/C nvidia-smi " + arg).Split('\n');
+
+            foreach (string res in _result) {
+                Log.print(res);
+            }
+            return _result;
+        }
+
+        
+        private string[] LaunchNVoc(string arg) {
+            LauchTool NVoc= new LauchTool();
+            NVoc.bRunInThread = false;
+            NVoc.bWaitEndForOutput = true;
+            NVoc.bReturnBoth = true;
+            NVoc.bHidden = true;
+
+            string[] _result = NVoc.fLauchExe("NVoc.exe", arg).Split('\n');
+
+            foreach (string res in _result) {
+                Log.print(res);
+            }
+            return _result;
+        }
+
+
+
+        private void btReset_Click(object sender,EventArgs e) {
+            //-r, --gpu-reset //hard reset on linux?
+            //nvidia-smi -rgc //reset all core
+
+           LaunchSmi("-rgc");
+        }
         private bool overclock_gpu(int gpu_id, int val_core) {
 
              if (val_core < 500 || val_core > 9000) {
@@ -124,16 +169,9 @@ nvidia-smi -pl 130  #limit TDP if u want
             }
             int core_min = val_core;
             int core_max = val_core;
+            
+            LaunchSmi("-i " + gpu_id + " --lock-gpu-clocks=" + core_min  + "," + core_max );
 
-            LauchTool smi= new LauchTool();
-            smi.bRunInThread = false;
-            smi.bWaitEndForOutput = true;
-            smi.bReturnBoth = true;
-            smi.bHidden = false;
-
-            string _result = smi.fLauchExe("cmd.exe", "/C nvidia-smi -i " + gpu_id + " --lock-gpu-clocks=" + core_min  + "," + core_max + "");
-            Log.print(_result);
-            //TODO detect failure
             return true;
         }
 
@@ -143,15 +181,9 @@ nvidia-smi -pl 130  #limit TDP if u want
                 Log.print("Invalid mem clock");
                 return false;
             }
+          
+            string[] _result = LaunchNVoc( gpu_id + " 0 "  + val_mem);
 
-            LauchTool NVoc= new LauchTool();
-            NVoc.bRunInThread = false;
-            NVoc.bWaitEndForOutput = true;
-            NVoc.bReturnBoth = true;
-            NVoc.bHidden = false;
-
-            string[] _result = NVoc.fLauchExe("NVoc.exe", gpu_id + " 0 "  + val_mem).Split('\n');
-            //string _result = NVoc.fLauchExe("cmd.exe", "/C nvidia-smi -i " + gpu_id + " --lock-gpu-clocks=" + core_min  + "," + core_max + "");
             foreach (string res in _result) {
                 Log.print(res);
                 if (res.IndexOf("VRAM OC OK") != -1) {
@@ -293,13 +325,11 @@ nvidia-smi -pl 130  #limit TDP if u want
                 break;
           }
 
-         
-
-
-
-
-            
         }
+
+
+
+
     }
 }
 

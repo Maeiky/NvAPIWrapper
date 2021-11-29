@@ -34,6 +34,7 @@ namespace GoldMiner {
             this.btnSelected = new System.Windows.Forms.Button();
             this.btnAll = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.btReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lsbGPU
@@ -124,11 +125,22 @@ namespace GoldMiner {
             this.label4.TabIndex = 9;
             this.label4.Text = "Apply to:";
             // 
+            // btReset
+            // 
+            this.btReset.Location = new System.Drawing.Point(706, 293);
+            this.btReset.Name = "btReset";
+            this.btReset.Size = new System.Drawing.Size(58, 35);
+            this.btReset.TabIndex = 10;
+            this.btReset.Text = "Reset OC";
+            this.btReset.UseVisualStyleBackColor = true;
+            this.btReset.Click += new System.EventHandler(this.btReset_Click);
+            // 
             // GoldMinerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 450);
+            this.Controls.Add(this.btReset);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAll);
             this.Controls.Add(this.btnSelected);
@@ -159,6 +171,7 @@ namespace GoldMiner {
         private System.Windows.Forms.Button btnSelected;
         private System.Windows.Forms.Button btnAll;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btReset;
     }
 }
 
