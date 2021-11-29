@@ -31,13 +31,227 @@ namespace GoldMiner {
         }
 
 
+
+
+        
+        public void UpdateGPU(int id) {
+            GPUobj g = aGPU[id];
+            PhysicalGPU gpu = g.gpu;
+          /////GET DATA////
+            ///////////////
+            string tVRAM = "";
+                string tGPU = "";
+
+            ///////// Get Temp / VRAM /////////
+            var maxBit = 0;
+            for (; maxBit < 32; maxBit++){
+                try { GPUApi.QueryThermalSensors(gpu.Handle, 1u << maxBit);}catch{break;}
+            }
+            if (maxBit != 0){
+                var temp = GPUApi.QueryThermalSensors(gpu.Handle, (1u << maxBit) - 1);
+                GPUThermalSensor[] GetThermalSettings = gpu.ThermalInformation.ThermalSensors.ToArray();
+                string[]  QueryThermalSensors = temp.Temperatures.Take(maxBit).Select((t) => t.ToString("F2")).ToArray();
+                tVRAM = QueryThermalSensors[QueryThermalSensors.Length-1];
+                tGPU = QueryThermalSensors[0];
+            }
+            /////////////////////////////////
+            GPUCooler[] aCoolers =  gpu.CoolerInformation.Coolers.ToArray();
+             
+            string fan = "Fan: ";
+            foreach (GPUCooler cooler in aCoolers) {
+                // fan += cooler.CurrentFanSpeedInRPM + "% ";
+                fan += cooler.CurrentLevel + "% ";
+            }
+                
+            //  gpu.BaseClockFrequencies
+            IClockFrequencies base_clk =  gpu.BaseClockFrequencies;
+            IClockFrequencies boost_clk =  gpu.BoostClockFrequencies;
+
+            IClockFrequencies clk =  gpu.CurrentClockFrequencies;
+            ClockDomainInfo core_clk = clk.ProcessorClock;
+            ClockDomainInfo mem_clk = clk.MemoryClock;
+            ClockDomainInfo graph_clk = clk.GraphicsClock;
+            string _core_clk = core_clk.Frequency.ToString();
+
+            double fmem_clk =  Math.Round(mem_clk.Frequency/1000.0);
+            double fgraph_clk=  Math.Round(graph_clk.Frequency/1000.0);
+
+            string _mem_clk = fmem_clk.ToString();
+            string _graph_clk = fgraph_clk.ToString();
+
+        ////////////////////////////////////////////////////////
+        ///
+        //    lsbGPU.Items.Add(  gpu.FullName  + " _core_clk[" + _graph_clk + "]"  + " _mem_clk[" + _mem_clk + "]"  +  " :" + " tGPU:" + tGPU + " tVRAM: " + tVRAM  + " " + gpu.BusInformation  + " : " +  " " + fan +  " " + gpu.ArchitectInformation);
+
+            g.name.Text =  gpu.FullName.Replace("NVIDIA ", "");
+            g.tgpu.Text =    "GPU: " +tGPU;
+            g.tvram.Text =   "VRAM: " +tVRAM;
+            g.fan.Text =   fan;
+            g.core.Text =  "Core: "+ _graph_clk;
+            g.vram.Text =   "Mem: " + _mem_clk;
+        
+             
+        }
+
+
+
+        public class GPUobj {
+            public PhysicalGPU gpu;
+            public Label id;
+            public Label name;
+            public Label tgpu;
+            public Label tvram;
+            public Label fan;
+            public Label core;
+            public Label vram;
+            public ComboBox miner;
+            public ComboBox wallet;
+            
+        }
+       List<GPUobj> aGPU = new List<GPUobj>();
+
+        public int CreateGPU(int id, int offsetY, PhysicalGPU gpu) {
+            GPUobj g = new GPUobj();
+            aGPU.Add(g);
+            g.gpu = gpu;
+
+            int posX=   5;
+            int posY=  offsetY + 5;
+
+             int curr_offX=   posX;
+
+
+            ///ID////
+            g.id = new Label(); 
+            g.id.Text = id.ToString();
+            g.id.Location = new Point(posX, posY);
+        
+            g.id.Font = new Font("Calibri", 18);
+            g.id.ForeColor = Color.Green;
+            g.id.Padding = new Padding(0);
+            g.id.AutoSize= true;
+            gbGPU.Controls.Add(g.id);
+            curr_offX += 20;
+             //////////
+
+             ///Name////
+            g.name = new Label(); 
+            g.name.Text = "GPU name";
+            g.name.Location = new Point(curr_offX, posY);
+        
+            g.name.Font = new Font("Calibri", 12);
+            g.name.ForeColor = Color.Black;
+            g.name.Padding = new Padding(0);
+            g.name.AutoSize= true;
+            gbGPU.Controls.Add(g.name);
+            curr_offX += 150;
+             //////////
+  
+             ///GPU temp////
+            g.tgpu = new Label(); 
+            g.tgpu.Text = "tGPU";
+            g.tgpu.Location = new Point(curr_offX, posY-8);
+        
+            g.tgpu.Font = new Font("Calibri", 10);
+            g.tgpu.ForeColor = Color.Black;
+            g.tgpu.Padding = new Padding(0);
+            g.tgpu.AutoSize= true;
+            gbGPU.Controls.Add( g.tgpu);
+             //////////
+             
+
+           ///VRAM temp////
+            g.tvram = new Label(); 
+            g.tvram.Text = "tVRAM";
+            g.tvram.Location = new Point(curr_offX, posY+5);
+        
+            g.tvram.Font = new Font("Calibri", 10);
+            g.tvram.ForeColor = Color.Black;
+            g.tvram.Padding = new Padding(0);
+            g.tvram.AutoSize= true;
+            gbGPU.Controls.Add( g.tvram);
+            curr_offX += 100;
+            //////////
+             
+        
+            ///Fan temp////
+            g.fan = new Label(); 
+            g.fan.Text = "Fan";
+            g.fan.Location = new Point(curr_offX, posY+5);
+        
+            g.fan.Font = new Font("Calibri", 10);
+            g.fan.ForeColor = Color.Black;
+            g.fan.Padding = new Padding(0);
+            g.fan.AutoSize= true;
+            gbGPU.Controls.Add( g.fan);
+            curr_offX += 100;
+            //////////
+            
+            
+            ///CoreClk ////
+            g.core = new Label(); 
+            g.core.Text = "Fan";
+            g.core.Location = new Point(curr_offX, posY);
+        
+            g.core.Font = new Font("Calibri", 12);
+            g.core.ForeColor = Color.Black;
+            g.core.Padding = new Padding(0);
+            g.core.AutoSize= true;
+            gbGPU.Controls.Add( g.core);
+             curr_offX += 100;
+            //////////
+            g.vram = new Label(); 
+            g.vram.Text = "Fan";
+            g.vram.Location = new Point(curr_offX, posY);
+        
+            g.vram.Font = new Font("Calibri", 12);
+            g.vram.ForeColor = Color.Black;
+            g.vram.Padding = new Padding(0);
+            g.vram.AutoSize= true;
+            gbGPU.Controls.Add( g.vram);
+            curr_offX += 100;
+
+
+            ///Miner////
+            g.miner = new ComboBox (); 
+            g.miner.Text = "NbMiner";
+            g.miner.Items.Add("NbMiner");
+
+            g.miner.Location = new Point(curr_offX, posY+5);
+        
+            g.miner.Font = new Font("Calibri", 10);
+            g.miner.ForeColor = Color.Black;
+            g.miner.Width = 100;
+            gbGPU.Controls.Add( g.miner);
+
+            curr_offX += 100;
+            //////////
+            
+               ///wallet////
+            g.miner = new ComboBox (); 
+            g.miner.Text = "wallet";
+            g.miner.Items.Add("wallet");
+
+            g.miner.Location = new Point(curr_offX, posY+5);
+        
+            g.miner.Font = new Font("Calibri", 10);
+            g.miner.ForeColor = Color.Black;
+            g.miner.Width = 100;
+            gbGPU.Controls.Add( g.miner);
+
+            curr_offX += 100;
+            //////////
+                
+        
+        ////////
+            return offsetY+30;
+        }
+
+
+
         private void GoldMinerForm_Load(object sender,EventArgs e) {
            
              PrintDriverVersion();
-
-
-         // find bits
-           
 /*
  * 
  for those interested, I found how to manually tweak in the start.bat with
@@ -61,12 +275,17 @@ nvidia-smi -pl 130  #limit TDP if u want
  */
 
 
-
-
-
              PhysicalGPU[] aGPU =  PhysicalGPU.GetPhysicalGPUs();
 
+             int offset = 20;
+             int i = 0;
             foreach (PhysicalGPU gpu in aGPU) { 
+                
+                offset = CreateGPU(i, offset, gpu);
+                UpdateGPU(i);
+                i++;
+
+
                  string tVRAM = "";
                  string tGPU = "";
 
@@ -326,9 +545,9 @@ nvidia-smi -pl 130  #limit TDP if u want
 
         }
 
+        private void groupBox1_Enter(object sender,EventArgs e) {
 
-
-
+        }
     }
 }
 
