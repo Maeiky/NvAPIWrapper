@@ -1,6 +1,6 @@
 ﻿
 namespace GoldMiner {
-    partial class GoldMinerForm {
+    partial class QuantuminerForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -168,7 +168,7 @@ namespace GoldMiner {
             this.pnGPU.Size = new System.Drawing.Size(1220, 475);
             this.pnGPU.TabIndex = 13;
             // 
-            // GoldMinerForm
+            // QuantuminerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -185,8 +185,8 @@ namespace GoldMiner {
             this.Controls.Add(this.tbOverclock_Core);
             this.Controls.Add(this.lbDriver);
             this.Controls.Add(this.lsbGPU);
-            this.Name = "GoldMinerForm";
-            this.Text = "Form1";
+            this.Name = "QuantuminerForm";
+            this.Text = "Quantuminer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GoldMinerForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GoldMinerForm_FormClosed);
             this.Load += new System.EventHandler(this.GoldMinerForm_Load);

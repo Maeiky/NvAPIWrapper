@@ -20,8 +20,8 @@ using NvAPIWrapper.Native.Interfaces.GPU;
 using static NvAPIWrapper.Native.GPU.Structures.PerformanceStates20ClockEntryV1;
 
 namespace GoldMiner {
-    public partial class GoldMinerForm:Form {
-        public GoldMinerForm() {
+    public partial class QuantuminerForm:Form {
+        public QuantuminerForm() {
         InitializeComponent();
         }
 

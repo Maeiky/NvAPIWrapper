@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NvAPICodeGenerator", "NvAPICodeGenerator\NvAPICodeGenerator.csproj", "{029C0061-896A-4259-BE01-92EE6D95B8CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldMiner", "GoldMiner\GoldMiner.csproj", "{F271366E-F8DA-4404-9457-55076CE6C280}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantuminer", "Quantuminer\Quantuminer.csproj", "{F271366E-F8DA-4404-9457-55076CE6C280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +65,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F271366E-F8DA-4404-9457-55076CE6C280} = {0C15BA38-A6B5-4ECE-B92F-F111CDF6AE59}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91A681D8-F94B-49E1-8D8F-5023D60D7DA6}

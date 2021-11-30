@@ -7,7 +7,7 @@
     <ProjectGuid>{F271366E-F8DA-4404-9457-55076CE6C280}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>App</RootNamespace>
-    <AssemblyName>GoldMiner</AssemblyName>
+    <AssemblyName>Quantuminer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -66,18 +66,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoldMinerForm.cs">
+    <Compile Include="QuantuminerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GoldMinerForm.Designer.cs">
-      <DependentUpon>GoldMinerForm.cs</DependentUpon>
+    <Compile Include="QuantuminerForm.Designer.cs">
+      <DependentUpon>QuantuminerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LauchTool.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GoldMinerForm.resx">
-      <DependentUpon>GoldMinerForm.cs</DependentUpon>
+    <EmbeddedResource Include="QuantuminerForm.resx">
+      <DependentUpon>QuantuminerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

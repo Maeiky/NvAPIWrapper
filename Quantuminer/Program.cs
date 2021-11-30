@@ -14,7 +14,7 @@ namespace GoldMiner {
         static void Main() {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new GoldMinerForm());
+        Application.Run(new QuantuminerForm());
         }
     }
 }
