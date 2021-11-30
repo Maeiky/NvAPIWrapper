@@ -36,10 +36,10 @@ namespace GoldMiner {
             this.btnAll = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.btReset = new System.Windows.Forms.Button();
-            this.gbGPU = new System.Windows.Forms.GroupBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.gbGPUList = new System.Windows.Forms.GroupBox();
-            this.gbGPU.SuspendLayout();
+            this.pnGPUList = new System.Windows.Forms.Panel();
+            this.pnGPU = new System.Windows.Forms.Panel();
+            this.pnGPU.SuspendLayout();
             this.SuspendLayout();
             // 
             // lsbGPU
@@ -47,7 +47,7 @@ namespace GoldMiner {
             this.lsbGPU.FormattingEnabled = true;
             this.lsbGPU.Location = new System.Drawing.Point(12, 34);
             this.lsbGPU.Name = "lsbGPU";
-            this.lsbGPU.Size = new System.Drawing.Size(873, 69);
+            this.lsbGPU.Size = new System.Drawing.Size(653, 30);
             this.lsbGPU.TabIndex = 0;
             this.lsbGPU.SelectedIndexChanged += new System.EventHandler(this.lsbGPU_SelectedIndexChanged);
             // 
@@ -63,14 +63,14 @@ namespace GoldMiner {
             // 
             // tbOverclock_Core
             // 
-            this.tbOverclock_Core.Location = new System.Drawing.Point(477, 470);
+            this.tbOverclock_Core.Location = new System.Drawing.Point(867, 34);
             this.tbOverclock_Core.Name = "tbOverclock_Core";
             this.tbOverclock_Core.Size = new System.Drawing.Size(100, 20);
             this.tbOverclock_Core.TabIndex = 2;
             // 
             // tbOverclock_Mem
             // 
-            this.tbOverclock_Mem.Location = new System.Drawing.Point(477, 491);
+            this.tbOverclock_Mem.Location = new System.Drawing.Point(867, 55);
             this.tbOverclock_Mem.Name = "tbOverclock_Mem";
             this.tbOverclock_Mem.Size = new System.Drawing.Size(100, 20);
             this.tbOverclock_Mem.TabIndex = 3;
@@ -78,7 +78,7 @@ namespace GoldMiner {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(433, 471);
+            this.label1.Location = new System.Drawing.Point(823, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 4;
@@ -87,7 +87,7 @@ namespace GoldMiner {
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(492, 449);
+            this.label2.Location = new System.Drawing.Point(882, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 5;
@@ -96,7 +96,7 @@ namespace GoldMiner {
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(433, 493);
+            this.label3.Location = new System.Drawing.Point(823, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 6;
@@ -104,7 +104,7 @@ namespace GoldMiner {
             // 
             // btnSelected
             // 
-            this.btnSelected.Location = new System.Drawing.Point(583, 471);
+            this.btnSelected.Location = new System.Drawing.Point(973, 35);
             this.btnSelected.Name = "btnSelected";
             this.btnSelected.Size = new System.Drawing.Size(58, 35);
             this.btnSelected.TabIndex = 7;
@@ -114,7 +114,7 @@ namespace GoldMiner {
             // 
             // btnAll
             // 
-            this.btnAll.Location = new System.Drawing.Point(647, 471);
+            this.btnAll.Location = new System.Drawing.Point(1037, 35);
             this.btnAll.Name = "btnAll";
             this.btnAll.Size = new System.Drawing.Size(58, 35);
             this.btnAll.TabIndex = 8;
@@ -124,7 +124,7 @@ namespace GoldMiner {
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(609, 449);
+            this.label4.Location = new System.Drawing.Point(999, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 9;
@@ -132,7 +132,7 @@ namespace GoldMiner {
             // 
             // btReset
             // 
-            this.btReset.Location = new System.Drawing.Point(726, 470);
+            this.btReset.Location = new System.Drawing.Point(1116, 34);
             this.btReset.Name = "btReset";
             this.btReset.Size = new System.Drawing.Size(58, 35);
             this.btReset.TabIndex = 10;
@@ -140,38 +140,40 @@ namespace GoldMiner {
             this.btReset.UseVisualStyleBackColor = true;
             this.btReset.Click += new System.EventHandler(this.btReset_Click);
             // 
-            // gbGPU
-            // 
-            this.gbGPU.Controls.Add(this.gbGPUList);
-            this.gbGPU.Location = new System.Drawing.Point(28, 153);
-            this.gbGPU.Name = "gbGPU";
-            this.gbGPU.Size = new System.Drawing.Size(1118, 273);
-            this.gbGPU.TabIndex = 11;
-            this.gbGPU.TabStop = false;
-            this.gbGPU.Text = "gbGPU";
-            this.gbGPU.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // gbGPUList
+            // pnGPUList
             // 
-            this.gbGPUList.Location = new System.Drawing.Point(29, 33);
-            this.gbGPUList.Name = "gbGPUList";
-            this.gbGPUList.Size = new System.Drawing.Size(1187, 334);
-            this.gbGPUList.TabIndex = 13;
-            this.gbGPUList.TabStop = false;
-            this.gbGPUList.Text = "gbGPUList";
+            this.pnGPUList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnGPUList.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnGPUList.Location = new System.Drawing.Point(3, 3);
+            this.pnGPUList.Name = "pnGPUList";
+            this.pnGPUList.Size = new System.Drawing.Size(1214, 469);
+            this.pnGPUList.TabIndex = 12;
+            // 
+            // pnGPU
+            // 
+            this.pnGPU.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnGPU.Controls.Add(this.pnGPUList);
+            this.pnGPU.Location = new System.Drawing.Point(12, 121);
+            this.pnGPU.Name = "pnGPU";
+            this.pnGPU.Size = new System.Drawing.Size(1220, 475);
+            this.pnGPU.TabIndex = 13;
             // 
             // GoldMinerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 608);
-            this.Controls.Add(this.gbGPU);
+            this.Controls.Add(this.pnGPU);
             this.Controls.Add(this.btReset);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAll);
@@ -188,7 +190,7 @@ namespace GoldMiner {
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GoldMinerForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GoldMinerForm_FormClosed);
             this.Load += new System.EventHandler(this.GoldMinerForm_Load);
-            this.gbGPU.ResumeLayout(false);
+            this.pnGPU.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,9 +209,9 @@ namespace GoldMiner {
         private System.Windows.Forms.Button btnAll;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btReset;
-        private System.Windows.Forms.GroupBox gbGPU;
-        private System.Windows.Forms.GroupBox gbGPUList;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Panel pnGPUList;
+        private System.Windows.Forms.Panel pnGPU;
     }
 }
 

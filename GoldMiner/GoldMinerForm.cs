@@ -41,6 +41,7 @@ namespace GoldMiner {
 
         public class GPUobj {
             public PhysicalGPU gpu;
+            public Panel pn;
             public Label id;
             public Label name;
             public Label tgpu;
@@ -60,12 +61,28 @@ namespace GoldMiner {
 
 
         public int CreateGPU(int id, int offsetY, PhysicalGPU gpu) {
+            
             GPUobj g = new GPUobj();
             aGPU.Add(g);
             g.gpu = gpu;
+            pnGPUList.BackColor = Color.FromArgb(unchecked((int)0xFF21252b));
+            
+             uint color_text = 0xFFcdd4d7;
+            int halftop = -5;
+            int halfbot = 8;
+            
+
+
+            g.pn = new Panel();
+            g.pn.BackColor = Color.FromArgb(unchecked((int)0xFF33373E));
+            g.pn.Width = pnGPUList.Width;
+            g.pn.Height = 50;
+            g.pn.Location = new Point(0, offsetY);
+            g.pn.Anchor = ((AnchorStyles)((  AnchorStyles.Top | AnchorStyles.Left| AnchorStyles.Right)));
+            pnGPUList.Controls.Add(g.pn);
 
             int posX=   5;
-            int posY=  offsetY + 5;
+            int posY=   5;
 
              int curr_offX=   posX;
 
@@ -75,10 +92,10 @@ namespace GoldMiner {
             g.id.Location = new Point(posX, posY);
         
             g.id.Font = new Font("Calibri", 18);
-            g.id.ForeColor = Color.Green;
+            g.id.ForeColor = Color.White;
             g.id.Padding = new Padding(0);
             g.id.AutoSize= true;
-            gbGPUList.Controls.Add(g.id);
+            g.pn.Controls.Add(g.id);
             curr_offX += 20;
              //////////
 
@@ -88,36 +105,36 @@ namespace GoldMiner {
             g.name.Location = new Point(curr_offX, posY);
         
             g.name.Font = new Font("Calibri", 12);
-            g.name.ForeColor = Color.Black;
+            g.name.ForeColor =  Color.FromArgb(unchecked((int)0xFFb444));
             g.name.Padding = new Padding(0);
             g.name.AutoSize= true;
-            gbGPUList.Controls.Add(g.name);
+            g.pn.Controls.Add(g.name);
             curr_offX += 150;
              //////////
   
              ///GPU temp////
             g.tgpu = new Label(); 
             g.tgpu.Text = "tGPU";
-            g.tgpu.Location = new Point(curr_offX, posY-8);
+            g.tgpu.Location = new Point(curr_offX, posY+halftop);
         
             g.tgpu.Font = new Font("Calibri", 10);
-            g.tgpu.ForeColor = Color.Black;
+            g.tgpu.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.tgpu.Padding = new Padding(0);
             g.tgpu.AutoSize= true;
-            gbGPUList.Controls.Add( g.tgpu);
+            g.pn.Controls.Add( g.tgpu);
              //////////
              
 
            ///VRAM temp////
             g.tvram = new Label(); 
             g.tvram.Text = "tVRAM";
-            g.tvram.Location = new Point(curr_offX, posY+5);
+            g.tvram.Location = new Point(curr_offX, posY+halfbot);
         
             g.tvram.Font = new Font("Calibri", 10);
-            g.tvram.ForeColor = Color.Black;
+            g.tvram.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.tvram.Padding = new Padding(0);
             g.tvram.AutoSize= true;
-            gbGPUList.Controls.Add( g.tvram);
+            g.pn.Controls.Add( g.tvram);
             curr_offX += 100;
             //////////
              
@@ -125,13 +142,13 @@ namespace GoldMiner {
             ///Fan temp////
             g.fan = new Label(); 
             g.fan.Text = "Fan";
-            g.fan.Location = new Point(curr_offX, posY+5);
+            g.fan.Location = new Point(curr_offX, posY+halfbot);
         
             g.fan.Font = new Font("Calibri", 10);
-            g.fan.ForeColor = Color.Black;
+            g.fan.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.fan.Padding = new Padding(0);
             g.fan.AutoSize= true;
-            gbGPUList.Controls.Add( g.fan);
+            g.pn.Controls.Add( g.fan);
             curr_offX += 100;
             //////////
             
@@ -142,10 +159,10 @@ namespace GoldMiner {
             g.core.Location = new Point(curr_offX, posY);
         
             g.core.Font = new Font("Calibri", 12);
-            g.core.ForeColor = Color.Black;
+            g.core.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.core.Padding = new Padding(0);
             g.core.AutoSize= true;
-            gbGPUList.Controls.Add( g.core);
+            g.pn.Controls.Add( g.core);
              curr_offX += 100;
             //////////
             g.vram = new Label(); 
@@ -153,10 +170,10 @@ namespace GoldMiner {
             g.vram.Location = new Point(curr_offX, posY);
         
             g.vram.Font = new Font("Calibri", 12);
-            g.vram.ForeColor = Color.Black;
+            g.vram.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.vram.Padding = new Padding(0);
             g.vram.AutoSize= true;
-            gbGPUList.Controls.Add( g.vram);
+            g.pn.Controls.Add( g.vram);
             curr_offX += 100;
 
 
@@ -164,28 +181,32 @@ namespace GoldMiner {
             g.miner = new ComboBox (); 
             g.miner.Text = "NbMiner";
             g.miner.Items.Add("NbMiner");
+            g.miner.BackColor = Color.FromArgb(unchecked((int)0xFF21252b));
+            g.miner.DropDownStyle  = ComboBoxStyle.DropDownList;
+            g.miner.Location = new Point(curr_offX, posY+halfbot);
+       
 
-            g.miner.Location = new Point(curr_offX, posY+5);
-        
             g.miner.Font = new Font("Calibri", 10);
-            g.miner.ForeColor = Color.Black;
+            g.miner.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.miner.Width = 100;
-            gbGPUList.Controls.Add( g.miner);
+            g.miner.SelectedIndex = 0;
+            g.pn.Controls.Add( g.miner);
 
             curr_offX += 100;
             //////////
             
              ///wallet////
-            g.miner = new ComboBox (); 
-            g.miner.Text = "wallet";
-            g.miner.Items.Add("wallet");
-
-            g.miner.Location = new Point(curr_offX, posY+5);
+            g.wallet = new ComboBox (); 
+            g.wallet.Items.Add("wallet");
+            g.wallet.BackColor =Color.FromArgb(unchecked((int)0xFF21252b));;
+             g.wallet.DropDownStyle  = ComboBoxStyle.DropDownList;
+            g.wallet.Location = new Point(curr_offX, posY+halfbot);
         
-            g.miner.Font = new Font("Calibri", 10);
-            g.miner.ForeColor = Color.Black;
-            g.miner.Width = 100;
-            gbGPUList.Controls.Add( g.miner);
+            g.wallet.Font = new Font("Calibri", 10);
+            g.wallet.ForeColor= Color.FromArgb(unchecked((int)color_text));
+            g.wallet.Width = 100;
+             g.wallet.SelectedIndex = 0;
+            g.pn.Controls.Add( g.wallet);
 
             curr_offX += 100;
             //////////
@@ -194,42 +215,42 @@ namespace GoldMiner {
             ///Crypto ////
             g.crypto = new Label(); 
             g.crypto.Text = "Crypto";
-            g.crypto.Location = new Point(curr_offX, posY+5);
+            g.crypto.Location = new Point(curr_offX, posY+halfbot);
         
             g.crypto.Font = new Font("Calibri", 10);
-            g.crypto.ForeColor = Color.Black;
+            g.crypto.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.crypto.Padding = new Padding(0);
             g.crypto.AutoSize= true;
-            gbGPU.Controls.Add( g.crypto);
+            g.pn.Controls.Add( g.crypto);
             curr_offX += 80;
             //////////
                 
             ///Pool fee ////
             g.pool_fee = new Label(); 
             g.pool_fee.Text = "Crypto";
-            g.pool_fee.Location = new Point(curr_offX, posY-8);
+            g.pool_fee.Location = new Point(curr_offX, posY+halftop);
         
             g.pool_fee.Font = new Font("Calibri", 10);
-            g.pool_fee.ForeColor = Color.Black;
+            g.pool_fee.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.pool_fee.Padding = new Padding(0);
             g.pool_fee.AutoSize= true;
-            gbGPUList.Controls.Add( g.pool_fee);
+            g.pn.Controls.Add( g.pool_fee);
             //////////
             ///
             ///Miner fee ////
             g.miner_fee = new Label(); 
             g.miner_fee.Text = "Crypto";
-            g.miner_fee.Location = new Point(curr_offX, posY+5);
+            g.miner_fee.Location = new Point(curr_offX, posY+halfbot);
         
             g.miner_fee.Font = new Font("Calibri", 10);
-            g.miner_fee.ForeColor = Color.Black;
+            g.miner_fee.ForeColor = Color.FromArgb(unchecked((int)color_text));
             g.miner_fee.Padding = new Padding(0);
             g.miner_fee.AutoSize= true;
-            gbGPUList.Controls.Add( g.miner_fee);
+            g.pn.Controls.Add( g.miner_fee);
             curr_offX += 80;
             //////////
 
-            return offsetY+30;
+            return offsetY+52;
         }
 
 
@@ -262,7 +283,7 @@ nvidia-smi -pl 130  #limit TDP if u want
 
              PhysicalGPU[] aGPU =  PhysicalGPU.GetPhysicalGPUs();
 
-             int offset = 20;
+             int offset = 2;
              int i = 0;
             foreach (PhysicalGPU gpu in aGPU) { 
                 
@@ -403,7 +424,7 @@ nvidia-smi -pl 130  #limit TDP if u want
             this.BeginInvoke((MethodInvoker)delegate {
                 GPUobj g = aGPU[id];
  
-            //   gbGPUList.Location = new Point(  gbGPUList.Location.X,   gbGPUList.Location.Y - 1);  
+              // pnGPUList.Location = new Point(  pnGPUList.Location.X,   pnGPUList.Location.Y - 1);  
         
                 g.name.Text = name;
                 g.tgpu.Text =    "GPU: " +tGPU;
@@ -631,11 +652,12 @@ nvidia-smi -pl 130  #limit TDP if u want
         }
 
         private void GoldMinerForm_FormClosing(object sender,FormClosingEventArgs e) {
-          Hide();
+            Hide();
+           System.Environment.Exit(1);
         }
 
         private void GoldMinerForm_FormClosed(object sender,FormClosedEventArgs e) {
-          System.Environment.Exit(1);
+      
         }
     }
 }
